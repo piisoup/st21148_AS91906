@@ -17,7 +17,7 @@ class CatAdoption:
         self.root.title("Adopt A Cat!! :-)")
         self.root.geometry("450x350")
 
-        # Container for all frames - this will hold your MainFrame and other content frames
+        # Container for all frames
         self.container = Frame(self.root)
         self.container.pack(side="top", fill="both", expand=True)
         self.container.grid_rowconfigure(0, weight=1)
@@ -93,19 +93,6 @@ class MainFrame(Frame):
                                  command=lambda: controller.show_frame("AdoptionFrame"))
         to_adopt_button.pack(pady=(85, 10), fill='x', padx=40)
 
-# Page which shows cats for adoption
-class AdoptionFrame(Frame):
-        def __init__(self, parent, controller):
-            Frame.__init__(self, parent)
-            # Header
-            label = Label(self,
-                            text="Find your purrfect match! \n Adopt a cat today!",
-                            font=("PMingLiU", 16, "bold"),
-                            fg="#827268",
-                            background="#E3D5CA",
-                            width=30,
-                            height=5)
-            label.pack(pady=20, fill='x', padx=10)
 # run the application
 if __name__ == "__main__":
     app = CatAdoption()
