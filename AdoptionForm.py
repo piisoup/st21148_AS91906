@@ -2,6 +2,8 @@ from tkinter import *
 from tkinter import ttk
 from PIL import Image, ImageTk # Importing Image and ImageTk from pillow to use the images
 import os # Importing os to check files
+import json
+from tkinter import messagebox
 
 cat_images = [
     "Images/84CBE81C-BEC8-413D-A327-05EFB7649942 (1).png",
@@ -37,12 +39,11 @@ class CatAdoption:
     def __init__(self):
         self.root = Tk()
         self.root.title("Adopt A Cat!! :-)")
-        # Adjusted geometry to better accommodate the grid of cat images
         self.root.geometry("700x720")
 
         self.root.resizable(False, False)
 
-        # Container for all frames - this will hold your MainFrame and other content frames
+        # Container for all frames
         self.container = Frame(self.root)
         self.container.pack(side="top", fill="both", expand=True)
         self.container.grid_rowconfigure(0, weight=1)
@@ -69,7 +70,7 @@ class CatAdoption:
         frame.tkraise()
 
     def quit_app(self):
-       # Method to quit the program
+        # Method to quit the program
         self.root.destroy()
 
     def run(self):
@@ -80,124 +81,151 @@ class FormFrame(Frame):
     def __init__(self, parent, controller):
         Frame.__init__(self, parent, bg="#D6CCC2")
 
+        # header and text
         FormHeader_label = Label(self,
-                      text="Adoption Form!",
-                      font=("PMingLiU", 20, "bold"),
-                      fg="#827268",
-                      background="#E3D5CA",
-                      width=30,
-                      height=2)
-        FormHeader_label.pack(pady=(20, 0), fill='x', padx=10)
+                            text="Adoption Form!",
+                            font=("PMingLiU", 20, "bold"),
+                            fg="#827268",
+                            background="#E3D5CA",
+                            width=30,
+                            height=2)
+        FormHeader_label.grid(row=0, column=0, columnspan=2, pady=(20, 0), padx=10, sticky='nsew')
 
         FormSubHeader_label = Label(self,
-                      text="All Information Kept Private.",
-                      font=("PMingLiU", 8, "bold"),
-                      fg="#827268",
-                      background="#E3D5CA",
-                      width=30,
-                      height=1)
-        FormSubHeader_label.pack(pady=0, fill='x', padx=10)
+                            text="All Information Kept Private.",
+                            font=("PMingLiU", 8, "bold"),
+                            fg="#827268",
+                            background="#E3D5CA",
+                            width=30,
+                            height=1)
+        FormSubHeader_label.grid(row=1, column=0, columnspan=2, pady=0, padx=10, sticky='nsew')
+
+        # starting from row 2
+        row_offset = 2
 
         # Labels
         first_name_label = Label(self,
-                      text="First Name",
-                      font=("PMingLiU", 14, "bold"),
-                      fg="#827268",
-                      background="#E3D5CA",
-                      width=30,
-                      height=1)
-        first_name_label.pack()
+                            text="First Name",
+                            font=("PMingLiU", 14, "bold"),
+                            fg="#827268",
+                            background="#E3D5CA",
+                            width=30,
+                            height=1)
+        first_name_label.grid(row=0+row_offset, column=0, padx=5, pady=5)
 
         last_name_label = Label(self,
-                      text="Last Name",
-                      font=("PMingLiU", 14, "bold"),
-                      fg="#827268",
-                      background="#E3D5CA",
-                      width=30,
-                      height=1)
-        last_name_label.pack()
+                            text="Last Name",
+                            font=("PMingLiU", 14, "bold"),
+                            fg="#827268",
+                            background="#E3D5CA",
+                            width=30,
+                            height=1)
+        last_name_label.grid(row=1+row_offset, column=0, padx=5, pady=5)
 
         age_label = Label(self,
-                      text="Age",
-                      font=("PMingLiU", 14, "bold"),
-                      fg="#827268",
-                      background="#E3D5CA",
-                      width=30,
-                      height=1)
-        age_label.pack()
+                            text="Age",
+                            font=("PMingLiU", 14, "bold"),
+                            fg="#827268",
+                            background="#E3D5CA",
+                            width=30,
+                            height=1)
+        age_label.grid(row=2+row_offset, column=0, padx=5, pady=5)
 
         contact_label = Label(self,
-                      text="Contact number",
-                      font=("PMingLiU", 14, "bold"),
-                      fg="#827268",
-                      background="#E3D5CA",
-                      width=30,
-                      height=1)
-        contact_label.pack()
+                            text="Contact number",
+                            font=("PMingLiU", 14, "bold"),
+                            fg="#827268",
+                            background="#E3D5CA",
+                            width=30,
+                            height=1)
+        contact_label.grid(row=3+row_offset, column=0, padx=5, pady=5)
 
         email_label = Label(self,
-                      text="Email address",
-                      font=("PMingLiU", 14, "bold"),
-                      fg="#827268",
-                      background="#E3D5CA",
-                      width=30,
-                      height=1)
-        email_label.pack()
+                            text="Email address",
+                            font=("PMingLiU", 14, "bold"),
+                            fg="#827268",
+                            background="#E3D5CA",
+                            width=30,
+                            height=1)
+        email_label.grid(row=4+row_offset, column=0, padx=5, pady=5)
 
         name_of_cat_label = Label(self,
-                      text="Name of cat looking to adopt",
-                      font=("PMingLiU", 14, "bold"),
-                      fg="#827268",
-                      background="#E3D5CA",
-                      width=30,
-                      height=1)
-        name_of_cat_label.pack()
+                            text="Name of cat looking to adopt",
+                            font=("PMingLiU", 14, "bold"),
+                            fg="#827268",
+                            background="#E3D5CA",
+                            width=30,
+                            height=1)
+        name_of_cat_label.grid(row=5+row_offset, column=0, padx=5, pady=5)
 
         # Entry boxes
         user_first_name=StringVar()
         first_name_entry=ttk.Entry(self, textvariable = user_first_name, font = ('PMingLiU',14,'normal'))
-        first_name_entry.pack()
+        first_name_entry.grid(row=0+row_offset, column=1, padx=5, pady=5)
 
         user_last_name=StringVar()
         last_name_entry=ttk.Entry(self, textvariable = user_last_name, font = ('PMingLiU',14,'normal'))
-        last_name_label.pack()
+        last_name_entry.grid(row=1+row_offset, column=1, padx=5, pady=5)
 
         user_age=IntVar()
         age_entry=ttk.Entry(self, textvariable = user_age, font = ('PMingLiU',14,'normal'))
-        age_entry.pack()
+        age_entry.grid(row=2+row_offset, column=1, padx=5, pady=5)
 
 
         user_contact=IntVar()
         contact_entry=ttk.Entry(self, textvariable = user_contact, font = ('PMingLiU',14,'normal'))
-        contact_entry.pack()
+        contact_entry.grid(row=3+row_offset, column=1, padx=5, pady=5)
 
         user_email=StringVar()
         email_entry=ttk.Entry(self, textvariable = user_email, font = ('PMingLiU',14,'normal'))
-        email_entry.pack()
+        email_entry.grid(row=4+row_offset, column=1, padx=5, pady=5)
 
         #combo box
         chosen_cat=StringVar()
         chosen_cat.set("")
         cat_combobox = ttk.Combobox(self, textvariable=chosen_cat, state="readonly", font= ('PMingLiU', 14, 'normal'))
         cat_combobox['values'] = cat_names
-        cat_combobox.pack()
+        cat_combobox.grid(row=5+row_offset, column=1, padx=5, pady=5)
 
-        # grid!
-        first_name_label.grid(row=0, column=0)
-        first_name_entry.grid(row=0, column=1)
-        last_name_label.grid(row=1, column=0)
-        last_name_entry.grid(row=1, column=1)
-        age_label.grid(row=2, column=0)
-        age_entry.grid(row=2, column=1)
-        contact_label.grid(row=3, column=0)
-        contact_entry.grid(row=3, column=1)
-        email_label.grid(row=4, column=0)
-        email_entry.grid(row=4, column=1)
-        name_of_cat_label.grid(row=5, column=0)
-        cat_combobox.grid(row=5, column=1)
+        def save_to_file():
+            # writing to json file :O
+            data = {
+            "first_name": first_name_entry.get(),
+            "last_name": last_name_entry.get(),
+            "age": age_entry.get(),
+            "contact": contact_entry.get(),
+            "email": email_entry.get(),
+            "cat": chosen_cat.get()
+            }
 
+            with open('user_info.json', 'w') as f:
+                json.dump(data, f, indent=4)
+            
+            messagebox.showinfo("Save Successful!! Meow")
 
+        # Button to save to json file
+        back_button = Button(self, text="Save",
+                        font=("PMingLiU", 14, "bold"),
+                        fg="#827268",
+                        bg="#EDEDE9",
+                        command=save_to_file)
+        back_button.grid(row=8, column=0, columnspan=1, pady=30, padx=40, sticky="ew")
 
+        # Button to go back to the Main page
+        back_button = Button(self, text="Back to Main",
+                        font=("PMingLiU", 14, "bold"),
+                        fg="#827268",
+                        bg="#EDEDE9",
+                        command=lambda: controller.show_frame("MainFrame"))
+        back_button.grid(row=9, column=0, columnspan=1, pady=100, padx=40, sticky="ew")
+
+        # button to go back to adoption page
+        back_button = Button(self, text="Go back to cats!",
+                        font=("PMingLiU", 14, "bold"),
+                        fg="#827268",
+                        bg="#EDEDE9",
+                        command=lambda: controller.show_frame("AdoptionFrame"))
+        back_button.grid(row=9, column=1, columnspan=1, pady=100, padx=40, sticky="ew")
 
 # run the application
 if __name__ == "__main__":
