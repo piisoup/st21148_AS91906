@@ -129,7 +129,7 @@ class FormFrame(Frame):
         last_name_label.grid(row=1+row_offset, column=0, padx=5, pady=5, sticky='e')
 
         age_label = Label(self,
-                          text="Age",
+                          text="Age (must be over 18)",
                           font=("PMingLiU", 14, "bold"),
                           fg="#827268",
                           background="#E3D5CA",
@@ -201,28 +201,33 @@ class FormFrame(Frame):
             # Validation checks
             # checking if first name entry is all letters
             if not re.fullmatch(r'[a-zA-Z]+', first_name):
-                messagebox.showerror("First name must contain only letters.")
+                name_error = "First and last name must only contain letters."
+                messagebox.showerror("Error", name_error)
                 return
 
             # checking if last name entry is all letters
             if not re.fullmatch(r'[a-zA-Z]+', last_name):
-                messagebox.showerror("Last name must contain only letters.")
+                name_error = "First and last name must only contain letters."
+                messagebox.showerror("Error", name_error)
                 return
 
             # checking if age entry is all numbers
             if not age_str.isdigit():
-                messagebox.showerror("Age must contain only numbers.")
+                number_error = "Age and contact must only contain numbers."
+                messagebox.showerror("error", number_error)
                 return
 
             # checking if age entry is 18 or over
             age = int(age_str)
             if age < 18:
-                messagebox.showerror("You must be 18 or older to adopt a cat.")
+                age_error = "Legally, you must be over 18 to adopt an animal."
+                messagebox.showerror("Age error")
                 return
 
             # checking if contact entry is all numbers
             if not contact_str.isdigit():
-                messagebox.showerror("Contact number must contain only numbers.")
+                number_error = "Age and contact must only contain numbers"
+                messagebox.showerror("error", number_error)
                 return
 
             # if all entries pass validation save to json
