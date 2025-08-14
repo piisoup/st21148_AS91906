@@ -29,12 +29,11 @@ class CatAdoption:
     def __init__(self):
         self.root = Tk()
         self.root.title("Adopt A Cat!! :-)")
-        # Adjusted geometry to better accommodate the grid of cat images
         self.root.geometry("700x720")
 
         self.root.resizable(False, False)
 
-        # Container for all frames - this will hold your MainFrame and other content frames
+        # Container for all frames
         self.container = Frame(self.root)
         self.container.pack(side="top", fill="both", expand=True)
         self.container.grid_rowconfigure(0, weight=1)
@@ -73,7 +72,7 @@ class AdoptionFrame(Frame):
     def __init__(self, parent, controller):
         Frame.__init__(self, parent, bg="#D6CCC2") # background colour
 
-        # Configure grid rows and columns to be responsive
+        # responsive grids
         self.grid_rowconfigure(0, weight=0) # Header row - fixed size
         self.grid_rowconfigure(1, weight=1) # First row of cat boxes - stretches
         self.grid_rowconfigure(2, weight=1) # Second row of cat boxes - stretches
@@ -87,12 +86,12 @@ class AdoptionFrame(Frame):
 
         # Header label for the Adoption page
         header_label = Label(self,
-                             text="Our Adoptable Cats", # Changed text for clarity
+                             text="Our Adoptable Cats",
                              font=("PMingLiU", 16, "bold"),
                              fg="#827268",
                              background="#E3D5CA",
-                             height=2) # Removed fixed width to allow grid to manage it
-        header_label.grid(row=0, column=0, columnspan=3, pady=20, padx=10, sticky="ew") # Use sticky="ew" for horizontal stretch
+                             height=2
+        header_label.grid(row=0, column=0, columnspan=3, pady=20, padx=10, sticky="ew")
 
         for r in range(2):
                     for c in range(3):
@@ -163,3 +162,4 @@ class AdoptionFrame(Frame):
 if __name__ == "__main__":
     app = CatAdoption()
     app.run()
+
