@@ -164,20 +164,23 @@ class AdoptionFrame(Frame):
         # Cat 6 row 2, column 2
         self.create_cat_box(row=2, col=2, index=5)
 
-        back_button = Button(self, text="Back to Main",
+        # button to go back to main
+        back_button = Button(self, text="Menu",
                              font=("PMingLiU", 14, "bold"),
                              fg="#827268",
                              bg="#EDEDE9",
                              command=lambda: controller.show_frame("MainFrame"))
         back_button.grid(row=3, column=0, columnspan=1, pady=10, padx=40, sticky="ew")
 
+        # go to adoption form 
         back_button = Button(self, text="Go to adopt!",
                              font=("PMingLiU", 14, "bold"),
                              fg="#827268",
                              bg="#EDEDE9",
-                             command=lambda: controller.show_frame("AdoptionForm"))
+                             command=lambda: controller.show_frame("FormFrame"))
         back_button.grid(row=3, column=2, columnspan=1, pady=10, padx=40, sticky="ew")
 
+    # creating the boxes for the cats
     def create_cat_box(self, row, col, index):
         rough_box = Frame(self, bg="#E0E0E0", bd=1, relief="solid")
         rough_box.grid(row=row, column=col, padx=10, pady=7, sticky="nsew")
@@ -187,31 +190,39 @@ class AdoptionFrame(Frame):
                             relief="groove")
         image_label.pack(pady=5, padx=5, fill="both", expand=True)
 
+        # putting the dictionaries into a variable
         image_path = cat_images[index]
         current_cat_info = cat_info[index]
 
         if os.path.exists(image_path):
             try:
+                # opening image and changing width
                 img = Image.open(image_path)
                 target_width = 180
                 target_height = 180
                 img_width, img_height = img.size
                 aspect_ratio = img_width / img_height
 
+                # checks if the target box is wider then the originals image aspect ratio
                 if target_width / target_height > aspect_ratio:
                     new_height = target_height
                     new_width = int(new_height * aspect_ratio)
+
+                # if false then box is taller! and changes
                 else:
                     new_width = target_width
                     new_height = int(new_width / aspect_ratio)
 
+                # use lanczos as it is a better way to downscale images - keeps quality
                 img = img.resize((new_width, new_height), Image.LANCZOS)
                 photo = ImageTk.PhotoImage(img)
                 image_label.config(image=photo)
                 self.photos.append(photo)
             except Exception as e:
+                # if image is not loading will show LOADING error
                 image_label.config(text=f"loading image error {os.path.basename(image_path)}: {e}", bg="red", fg="white", font=("PMingLiU", 8), wraplength=100)
         else:
+            # if image file cannot be found, will show orange box and let users know
             image_label.config(text=f"Image cannot be found: {os.path.basename(image_path)}", bg="orange", fg="white", font=("PMingLiU", 8), wraplength=100)
 
         cat_info_label = Label(rough_box, text=current_cat_info,
@@ -220,6 +231,7 @@ class AdoptionFrame(Frame):
                                fg="#827268")
         cat_info_label.pack(expand=True, fill="both", pady=(0, 5))
 
+# frame to adopt cats
 class FormFrame(Frame):
     def __init__(self, parent, controller):
         Frame.__init__(self, parent, bg="#D6CCC2")
@@ -272,7 +284,7 @@ class FormFrame(Frame):
         last_name_label.grid(row=1+row_offset, column=0, padx=5, pady=5, sticky='e')
 
         age_label = Label(self,
-                          text="Age",
+                          text="Age (must be over 18)",
                           font=("PMingLiU", 14, "bold"),
                           fg="#827268",
                           background="#E3D5CA",
@@ -344,28 +356,33 @@ class FormFrame(Frame):
             # Validation checks
             # checking if first name entry is all letters
             if not re.fullmatch(r'[a-zA-Z]+', first_name):
-                messagebox.showerror("First name must contain only letters.")
+                name_error = "First and last name must only contain letters."
+                messagebox.showerror("Error", name_error)
                 return
 
             # checking if last name entry is all letters
             if not re.fullmatch(r'[a-zA-Z]+', last_name):
-                messagebox.showerror("Last name must contain only letters.")
+                name_error = "First and last name must only contain letters."
+                messagebox.showerror("Error", name_error)
                 return
 
             # checking if age entry is all numbers
             if not age_str.isdigit():
-                messagebox.showerror("Age must contain only numbers.")
+                number_error = "Age and contact must only contain numbers."
+                messagebox.showerror("error", number_error)
                 return
 
             # checking if age entry is 18 or over
             age = int(age_str)
             if age < 18:
-                messagebox.showerror("You must be 18 or older to adopt a cat.")
+                age_error = "Legally, you must be over 18 to adopt an animal."
+                messagebox.showerror("Age error")
                 return
 
             # checking if contact entry is all numbers
             if not contact_str.isdigit():
-                messagebox.showerror("Contact number must contain only numbers.")
+                number_error = "Age and contact must only contain numbers"
+                messagebox.showerror("error", number_error)
                 return
 
             # if all entries pass validation save to json
