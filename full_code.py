@@ -124,12 +124,12 @@ class AdoptionFrame(Frame):
 
         # Header label for the Adoption page
         header_label = Label(self,
-                             text="Our Adoptable Cats", # Changed text for clarity
+                             text="Our Adoptable Cats",
                              font=("PMingLiU", 16, "bold"),
                              fg="#827268",
                              background="#E3D5CA",
-                             height=2) # Removed fixed width to allow grid to manage it
-        header_label.grid(row=0, column=0, columnspan=3, pady=20, padx=10, sticky="ew") # Use sticky="ew" for horizontal stretch
+                             height=2)
+        header_label.grid(row=0, column=0, columnspan=3, pady=20, padx=10, sticky="ew")
 
         for r in range(2):
                     for c in range(3):
@@ -223,3 +223,4 @@ class FormFrame(Frame):
 if __name__ == "__main__":
     app = CatAdoption()
     app.run()
+
