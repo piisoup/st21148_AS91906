@@ -2,14 +2,14 @@ from tkinter import *
 from PIL import Image, ImageTk # Importing Image and ImageTk from pillow to use the images
 import os # Importing os to check files
 
-# Global list of cat images
+# Global lists
 cat_images = [
-    "Images/84CBE81C-BEC8-413D-A327-05EFB7649942 (1).png",
-    "Images/5151C93C-2D24-4AF0-A0E6-F39A1C21CA34 (1).png",
-    "Images/DDD67ACF-E26B-4A63-92D5-18C807769B10 (1).png",
-    "Images/IMG_6214 (1).png",
-    "Images/6720ef6b-cd92-40ef-9331-74bb931bfb8c - Copy.JPG",
-    "Images/6720ef6b-cd92-40ef-9331-74bb931bfb8c.JPG"
+    "Images/comet.png",
+    "Images/Bratboy.png",
+    "Images/Sylvester.png",
+    "Images/Simba(1).png",
+    "Images/Timtam.JPG",
+    "Images/Yoyo.JPG"
 ]
 
 cat_info = [

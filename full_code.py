@@ -16,14 +16,13 @@ from tkinter import messagebox # for the popups
 
 # Global lists
 cat_images = [
-    "Images/84CBE81C-BEC8-413D-A327-05EFB7649942 (1).png",
-    "Images/5151C93C-2D24-4AF0-A0E6-F39A1C21CA34 (1).png",
-    "Images/DDD67ACF-E26B-4A63-92D5-18C807769B10 (1).png",
-    "Images/IMG_6214 (1).png",
-    "Images/6720ef6b-cd92-40ef-9331-74bb931bfb8c - Copy.JPG",
-    "Images/6720ef6b-cd92-40ef-9331-74bb931bfb8c.JPG"
+    "Images/comet.png",
+    "Images/Bratboy.png",
+    "Images/Sylvester.png",
+    "Images/Simba(1).png",
+    "Images/Timtam.JPG",
+    "Images/Yoyo.JPG"
 ]
-
 cat_info = [
     "Comet\n Age: 13 \n Lazy",
     "Bratboy\n Age: 19\n Killer",
@@ -151,6 +150,7 @@ class AdoptionFrame(Frame):
                              height=2) # Removed fixed width to allow grid to manage it
         header_label.grid(row=0, column=0, columnspan=3, pady=20, padx=10, sticky="ew") # Use sticky="ew" for horizontal stretch
 
+        # putting the images in the boxes
         for r in range(2):
                     for c in range(3):
                         rough_box = Frame(self, bg="#E0E0E0", bd=1, relief="solid")
@@ -166,6 +166,7 @@ class AdoptionFrame(Frame):
                         image_path = cat_images[cat_index]
                         current_cat_info = cat_info[cat_index] # get the cats information! using same for consistancy
 
+                        # trying to load the images from the list!
                         if os.path.exists(image_path):
                             try:
                                 img = Image.open(image_path)

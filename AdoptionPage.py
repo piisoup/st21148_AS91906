@@ -5,20 +5,20 @@ import os # Importing os to check files
 
 # Global list of cat images
 cat_images = [
-    "Images/84CBE81C-BEC8-413D-A327-05EFB7649942 (1).png",
-    "Images/5151C93C-2D24-4AF0-A0E6-F39A1C21CA34 (1).png",
-    "Images/DDD67ACF-E26B-4A63-92D5-18C807769B10 (1).png",
-    "Images/IMG_6214 (1).png",
-    "Images/6720ef6b-cd92-40ef-9331-74bb931bfb8c - Copy.JPG",
-    "Images/6720ef6b-cd92-40ef-9331-74bb931bfb8c.JPG"
+    "Images/comet.png",
+    "Images/Bratboy.png",
+    "Images/Sylvester.png",
+    "Images/Simba(1).png",
+    "Images/Timtam.JPG",
+    "Images/Yoyo.JPG"
 ]
 
 cat_info = [
-    "Comet\n Age: 10 \n Silly",
+    "Comet\n Age: 13 \n Lazy",
     "Bratboy\n Age: 19\n Killer",
-    "Callums cat\n Age: unkown \n jane doe",
-    "Simba\n Age: unkown\n Lazy",
-    "Timtam\n Age: 7\n Dumb",
+    "Sylvester\n Age: 13 \n Goated",
+    "Simba\n Age: 10\n Cuddly",
+    "Timtam\n Age: 7\n Not all there",
     "Yoyo\n Age: 15\n Senile"
 ]
 
@@ -29,11 +29,12 @@ class CatAdoption:
     def __init__(self):
         self.root = Tk()
         self.root.title("Adopt A Cat!! :-)")
+        # Adjusted geometry to better accommodate the grid of cat images
         self.root.geometry("700x720")
 
         self.root.resizable(False, False)
 
-        # Container for all frames
+        # Container for all frames - this will hold your MainFrame and other content frames
         self.container = Frame(self.root)
         self.container.pack(side="top", fill="both", expand=True)
         self.container.grid_rowconfigure(0, weight=1)
@@ -72,7 +73,7 @@ class AdoptionFrame(Frame):
     def __init__(self, parent, controller):
         Frame.__init__(self, parent, bg="#D6CCC2") # background colour
 
-        # responsive grids
+        # Configure grid rows and columns to be responsive
         self.grid_rowconfigure(0, weight=0) # Header row - fixed size
         self.grid_rowconfigure(1, weight=1) # First row of cat boxes - stretches
         self.grid_rowconfigure(2, weight=1) # Second row of cat boxes - stretches
@@ -86,17 +87,17 @@ class AdoptionFrame(Frame):
 
         # Header label for the Adoption page
         header_label = Label(self,
-                             text="Our Adoptable Cats",
+                             text="Our Adoptable Cats", # Changed text for clarity
                              font=("PMingLiU", 16, "bold"),
                              fg="#827268",
                              background="#E3D5CA",
-                             height=2
-        header_label.grid(row=0, column=0, columnspan=3, pady=20, padx=10, sticky="ew")
+                             height=2) # Removed fixed width to allow grid to manage it
+        header_label.grid(row=0, column=0, columnspan=3, pady=20, padx=10, sticky="ew") # Use sticky="ew" for horizontal stretch
 
         for r in range(2):
                     for c in range(3):
                         rough_box = Frame(self, bg="#E0E0E0", bd=1, relief="solid")
-                        rough_box.grid(row=r + 1, column=c, padx=10, pady=10, sticky="nsew")
+                        rough_box.grid(row=r + 1, column=c, padx=10, pady=7, sticky="nsew")
 
                         image_label = Label(rough_box,
                                             bg="#C0C0C0",
@@ -111,8 +112,8 @@ class AdoptionFrame(Frame):
                         if os.path.exists(image_path):
                             try:
                                 img = Image.open(image_path)
-                                target_width = 200
-                                target_height = 200
+                                target_width = 180
+                                target_height = 180
 
                                 img_width, img_height = img.size
                                 aspect_ratio = img_width / img_height
@@ -137,7 +138,7 @@ class AdoptionFrame(Frame):
                         # Label for the cat information
                         cat_info_label = Label(rough_box, text=current_cat_info,
                                             bg="#EDEDE9",
-                                            font=("PMingLiU", 12, "bold"),
+                                            font=("PMingLiU", 10, "bold"),
                                             fg="#827268")
                         cat_info_label.pack(expand=True, fill="both", pady=(0,5))
 
@@ -162,4 +163,3 @@ class AdoptionFrame(Frame):
 if __name__ == "__main__":
     app = CatAdoption()
     app.run()
-
