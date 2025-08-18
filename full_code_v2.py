@@ -1,10 +1,17 @@
+'''
+    Cat adoption program!
+    Made by: Daisy Chamberlain
+
+    V1 = fully functional code, no extensive work on aesthetics
+    V2= work on aesthetics with formframe, changed adoptionframe using grids
+'''
+
 from tkinter import *
 from tkinter import ttk
 from PIL import Image, ImageTk # Importing Image and ImageTk from pillow to use the images
 import os # Importing os to check files
-import json # importing json to append to file
-from tkinter import messagebox # messagebox
-import re # for validation
+import json # to write to files
+from tkinter import messagebox # for the popups
 
 
 # Global lists
@@ -87,13 +94,11 @@ class MainFrame(Frame):
         Frame.__init__(self, parent,
                        bg="#D6CCC2")
 
-        # changing the styles for the window
         style = ttk.Style()
         style.configure("My.TLabel",
                         background="#D6CCC2",
                         font=("PMingLiU", 16, "bold"))
 
-        # header
         label = Label(self,
                       text="Find your purrfect match! \n Adopt a cat today!",
                       font=("PMingLiU", 16, "bold"),
@@ -105,20 +110,20 @@ class MainFrame(Frame):
 
         # Button to go to Adoption page
         to_adopt_button = Button(self, text="Go", bg="#EDEDE9",
-                                 font=("PMingLiU", 16, "bold"),
-                                 fg="#827268",
-                                 width=15,
-                                 height=2,
-                                 command=lambda: controller.show_frame("AdoptionFrame"))
+                                  font=("PMingLiU", 16, "bold"),
+                                  fg="#827268",
+                                  width=15,
+                                  height=2,
+                                  command=lambda: controller.show_frame("AdoptionFrame"))
         to_adopt_button.pack(pady=(85, 10), fill='x', padx=40)
 
         # moved quit button to MainFrame as it's part of the homepage layout
         button_quit = Button(self, text="Exit",
-                                 font=("PMingLiU", 14, "bold"),
-                                 fg="#827268",
-                                 width=15,
-                                 height=1,
-                                 command=controller.quit_app)
+                                  font=("PMingLiU", 14, "bold"),
+                                  fg="#827268",
+                                  width=15,
+                                  height=1,
+                                  command=controller.quit_app)
         button_quit.pack(padx=40, fill='x', pady=(0, 10))
 
 # Page which shows cats for adoption
@@ -253,12 +258,12 @@ class FormFrame(Frame):
         FormHeader_label.grid(row=0, column=0, columnspan=3, pady=(20, 0), padx=10, sticky='nsew')
 
         FormSubHeader_label = Label(self,
-                                         text="All Information Kept Private.",
-                                         font=("PMingLiU", 8, "bold"),
-                                         fg="#827268",
-                                         background="#E3D5CA",
-                                         width=30,
-                                         height=1)
+                                    text="All Information Kept Private.",
+                                    font=("PMingLiU", 8, "bold"),
+                                    fg="#827268",
+                                    background="#E3D5CA",
+                                    width=30,
+                                    height=1)
         FormSubHeader_label.grid(row=1, column=0, columnspan=3, pady=0, padx=10, sticky='nsew')
 
         # starting from row 2
@@ -275,16 +280,16 @@ class FormFrame(Frame):
         first_name_label.grid(row=0+row_offset, column=0, padx=5, pady=5, sticky='e')
 
         last_name_label = Label(self,
-                                 text="Last Name",
-                                 font=("PMingLiU", 14, "bold"),
-                                 fg="#827268",
-                                 background="#E3D5CA",
-                                 width=30,
-                                 height=1)
+                                text="Last Name",
+                                font=("PMingLiU", 14, "bold"),
+                                fg="#827268",
+                                background="#E3D5CA",
+                                width=30,
+                                height=1)
         last_name_label.grid(row=1+row_offset, column=0, padx=5, pady=5, sticky='e')
 
         age_label = Label(self,
-                          text="Age (must be over 18)",
+                          text="Age",
                           font=("PMingLiU", 14, "bold"),
                           fg="#827268",
                           background="#E3D5CA",
@@ -328,11 +333,11 @@ class FormFrame(Frame):
         last_name_entry = ttk.Entry(self, textvariable=user_last_name, font=('PMingLiU', 14, 'normal'))
         last_name_entry.grid(row=1+row_offset, column=1, padx=5, pady=5, sticky='w')
 
-        user_age = StringVar()
+        user_age = IntVar()
         age_entry = ttk.Entry(self, textvariable=user_age, font=('PMingLiU', 14, 'normal'))
         age_entry.grid(row=2+row_offset, column=1, padx=5, pady=5, sticky='w')
 
-        user_contact = StringVar()
+        user_contact = IntVar()
         contact_entry = ttk.Entry(self, textvariable=user_contact, font=('PMingLiU', 14, 'normal'))
         contact_entry.grid(row=3+row_offset, column=1, padx=5, pady=5, sticky='w')
 
@@ -348,80 +353,43 @@ class FormFrame(Frame):
         cat_combobox.grid(row=5+row_offset, column=1, padx=5, pady=5, sticky='w')
 
         def save_to_file():
-            first_name = first_name_entry.get()
-            last_name = last_name_entry.get()
-            age_str = age_entry.get()
-            contact_str = contact_entry.get()
-
-            # Validation checks
-            # checking if first name entry is all letters
-            if not re.fullmatch(r'[a-zA-Z]+', first_name):
-                name_error = "First and last name must only contain letters."
-                messagebox.showerror("Error", name_error)
-                return
-
-            # checking if last name entry is all letters
-            if not re.fullmatch(r'[a-zA-Z]+', last_name):
-                name_error = "First and last name must only contain letters."
-                messagebox.showerror("Error", name_error)
-                return
-
-            # checking if age entry is all numbers
-            if not age_str.isdigit():
-                number_error = "Age and contact must only contain numbers."
-                messagebox.showerror("error", number_error)
-                return
-
-            # checking if age entry is 18 or over
-            age = int(age_str)
-            if age < 18:
-                age_error = "Legally, you must be over 18 to adopt an animal."
-                messagebox.showerror("Age error")
-                return
-
-            # checking if contact entry is all numbers
-            if not contact_str.isdigit():
-                number_error = "Age and contact must only contain numbers"
-                messagebox.showerror("error", number_error)
-                return
-
-            # if all entries pass validation save to json
+            # writing to json file :O
             data = {
-                "first_name": first_name,
-                "last_name": last_name,
-                "age": age,
-                "contact": contact_str,
-                "email": email_entry.get(),
-                "cat": chosen_cat.get()
+            "first_name": first_name_entry.get(),
+            "last_name": last_name_entry.get(),
+            "age": age_entry.get(),
+            "contact": contact_entry.get(),
+            "email": email_entry.get(),
+            "cat": chosen_cat.get()
             }
 
-            with open('user_info.json', 'a') as f:
+            with open('user_info.json', 'w') as f:
                 json.dump(data, f, indent=4)
             
             messagebox.showinfo("Save Successful!! Meow")
 
         # Button to save to json file
         save_button = Button(self, text="Save",
-                              font=("PMingLiU", 14, "bold"),
-                              fg="#827268",
-                              bg="#EDEDE9",
-                              command=save_to_file)
+                             font=("PMingLiU", 14, "bold"),
+                             fg="#827268",
+                             bg="#EDEDE9",
+                             command=save_to_file)
         save_button.grid(row=8, column=0, columnspan=3, pady=(20, 0), padx=50, sticky='nsew')
 
         # Button to go back to the Main page 
         back_button = Button(self, text="Menu",
-                              font=("PMingLiU", 14, "bold"),
-                              fg="#827268",
-                              bg="#EDEDE9",
-                              command=lambda: controller.show_frame("MainFrame"))
+                             font=("PMingLiU", 14, "bold"),
+                             fg="#827268",
+                             bg="#EDEDE9",
+                             command=lambda: controller.show_frame("MainFrame"))
         back_button.grid(row=9, column=0, columnspan=1, pady=100, padx=40, sticky="ew")
         
         # button to go back to adoption page
         back_button = Button(self, text="Go back to cats!",
-                              font=("PMingLiU", 14, "bold"),
-                              fg="#827268",
-                              bg="#EDEDE9",
-                              command=lambda: controller.show_frame("AdoptionFrame"))
+                             font=("PMingLiU", 14, "bold"),
+                             fg="#827268",
+                             bg="#EDEDE9",
+                             command=lambda: controller.show_frame("AdoptionFrame"))
         back_button.grid(row=9, column=1, columnspan=4, pady=100, padx=(0, 40), sticky="ew")
 
 # run the application
