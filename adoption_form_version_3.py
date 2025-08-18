@@ -229,6 +229,12 @@ class FormFrame(Frame):
                 number_error = "Age and contact must only contain numbers"
                 messagebox.showerror("error", number_error)
                 return
+            
+            # Checking if user has selected a cat
+            if chosen_cat.get() == "":
+                 chosen_cat_error = "Must select a cat to adopt"
+                 messagebox.showerror("Error", chosen_cat_error)
+                 return
 
             # if all entries pass validation save to json
             data = {
