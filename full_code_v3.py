@@ -9,11 +9,11 @@
 
 from tkinter import *
 from tkinter import ttk
-from PIL import Image, ImageTk # Importing Image and ImageTk from pillow to use the images
-import os # Importing os to check files
-import json # to write to files
-from tkinter import messagebox # for the popups
-import re # for validation
+from PIL import Image, ImageTk
+import os
+import json 
+from tkinter import messagebox
+import re
 
 
 # Global lists
@@ -46,6 +46,7 @@ cat_names = [
 
 # class holding all the main stuff
 class CatAdoption:
+
     '''
     Main applications
     '''
@@ -89,6 +90,7 @@ class CatAdoption:
         # tkinter loop
         self.root.mainloop()
 
+
 class MainFrame(Frame):
     # main menu with navigation
     def __init__(self, parent, controller):
@@ -112,11 +114,12 @@ class MainFrame(Frame):
 
         # Button to go to Adoption page
         to_adopt_button = Button(self, text="Go", bg="#EDEDE9",
-                                  font=("PMingLiU", 16, "bold"),
-                                  fg="#827268",
-                                  width=15,
-                                  height=2,
-                                  command=lambda: controller.show_frame("AdoptionFrame"))
+                                font=("PMingLiU", 16, "bold"),
+                                fg="#827268",
+                                width=15,
+                                height=2,
+                                command=lambda: 
+                                controller.show_frame("AdoptionFrame"))
         to_adopt_button.pack(pady=(85, 10), fill='x', padx=40)
 
         # moved quit button to MainFrame as it's part of the homepage layout
@@ -359,39 +362,70 @@ class FormFrame(Frame):
             last_name = last_name_entry.get()
             age_str = age_entry.get()
             contact_str = contact_entry.get()
+            email_entered = email_entry.get()
 
             # Validation checks
-            # checking if first name entry is all letters
+            # checking if first and last name is all letters and less then 20 chars
             if not re.fullmatch(r'[a-zA-Z]+', first_name):
                 name_error = "First and last name must only contain letters."
                 messagebox.showerror("Error", name_error)
                 return
 
-            # checking if last name entry is all letters
+            if not len(first_name) < 20:
+                name_length_error = "First and last name must be less then 20 characters"
+                messagebox.showerror("Error", name_length_error)
+                return 
+
             if not re.fullmatch(r'[a-zA-Z]+', last_name):
                 name_error = "First and last name must only contain letters."
                 messagebox.showerror("Error", name_error)
                 return
+            
+            if not len(last_name) < 20:
+                name_length_error = "First and last name must be less then 20 characters"
+                messagebox.showerror("Error", name_length_error)
+                return 
 
-            # checking if age entry is all numbers
+
+            # checking if age entry is all numbers, and 18 <= age < 150
             if not age_str.isdigit():
                 number_error = "Age and contact must only contain numbers."
                 messagebox.showerror("error", number_error)
                 return
 
-            # checking if age entry is 18 or over
+            if not int(age_str) < 150:
+                age_error = "Age must be less then 150"
+                messagebox.showerror("error", age_error)
+                return
+
             age = int(age_str)
-            if age < 18:
-                age_error = "Legally, you must be over 18 to adopt an animal."
+            if age <= 18:
+                age_error = "Legally, you must be 18 or over to adopt an animal."
                 messagebox.showerror("Age error")
                 return
 
-            # checking if contact entry is all numbers
+            # checking if contact entry is all numbers and less then 15 digits
             if not contact_str.isdigit():
                 number_error = "Age and contact must only contain numbers"
                 messagebox.showerror("error", number_error)
                 return
             
+            if not len(contact_str) < 15:
+                contact_error = "Conact number must be less then 15 digits"
+                messagebox.showerror("error", contact_error)
+                return
+            
+            # checking email is less then 40 chars and is in proper format
+            if not len(email_entered) < 40:
+                email_error = "Email entered must be less then 40 characters"
+                messagebox.showerror("error", email_error)
+                return
+            
+            if not re.fullmatch(r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$', email_entered):
+                email_input_error = "Not valid email address"
+                messagebox.showerror("error", email_input_error)
+                return
+
             # Checking if user has seleted a cat
             if chosen_cat.get() == "":
                  chosen_cat_error = "Must select a cat to adopt"
@@ -401,18 +435,21 @@ class FormFrame(Frame):
 
             # if all entries pass validation save to json
             data = {
-                "first_name": first_name,
-                "last_name": last_name,
+                "first_name": first_name.capitalize(),
+                "last_name": last_name.capitalize(),
                 "age": age,
                 "contact": contact_str,
-                "email": email_entry.get(),
+                "email": email_entered,
                 "cat": chosen_cat.get()
             }
 
             with open('user_info.json', 'a') as f:
+                if os.path.getsize('user_info.json') > 0:
+                    f.write(',\n')
                 json.dump(data, f, indent=4)
             
-            messagebox.showinfo("Save Successful!! Meow")
+            save_successful = "Meow!! :-3"
+            messagebox.showinfo("Save Successful", save_successful)
 
         # Button to save to json file
         save_button = Button(self, text="Save",

@@ -197,59 +197,94 @@ class FormFrame(Frame):
             last_name = last_name_entry.get()
             age_str = age_entry.get()
             contact_str = contact_entry.get()
+            email_entered = email_entry.get()
 
             # Validation checks
-            # checking if first name entry is all letters
+            # checking if first and last name is all letters and less then 20 chars
             if not re.fullmatch(r'[a-zA-Z]+', first_name):
                 name_error = "First and last name must only contain letters."
                 messagebox.showerror("Error", name_error)
                 return
 
-            # checking if last name entry is all letters
+            if not len(first_name) < 20:
+                name_length_error = "First and last name must be less then 20 characters"
+                messagebox.showerror("Error", name_length_error)
+                return 
+
             if not re.fullmatch(r'[a-zA-Z]+', last_name):
                 name_error = "First and last name must only contain letters."
                 messagebox.showerror("Error", name_error)
                 return
+            
+            if not len(last_name) < 20:
+                name_length_error = "First and last name must be less then 20 characters"
+                messagebox.showerror("Error", name_length_error)
+                return 
 
-            # checking if age entry is all numbers
+
+            # checking if age entry is all numbers, and 18 <= age < 150
             if not age_str.isdigit():
                 number_error = "Age and contact must only contain numbers."
                 messagebox.showerror("error", number_error)
                 return
 
-            # checking if age entry is 18 or over
+            if not int(age_str) < 150:
+                age_error = "Age must be less then 150"
+                messagebox.showerror("error", age_error)
+                return
+
             age = int(age_str)
-            if age < 18:
-                age_error = "Legally, you must be over 18 to adopt an animal."
+            if age <= 18:
+                age_error = "Legally, you must be 18 or over to adopt an animal."
                 messagebox.showerror("Age error")
                 return
 
-            # checking if contact entry is all numbers
+            # checking if contact entry is all numbers and less then 15 digits
             if not contact_str.isdigit():
                 number_error = "Age and contact must only contain numbers"
                 messagebox.showerror("error", number_error)
                 return
             
-            # Checking if user has selected a cat
+            if not len(contact_str) < 15:
+                contact_error = "Conact number must be less then 15 digits"
+                messagebox.showerror("error", contact_error)
+                return
+            
+            # checking email is less then 40 chars and is in proper format
+            if not len(email_entered) < 40:
+                email_error = "Email entered must be less then 40 characters"
+                messagebox.showerror("error", email_error)
+                return
+            
+            if not re.fullmatch(r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$', email_entered):
+                email_input_error = "Not valid email address"
+                messagebox.showerror("error", email_input_error)
+                return
+
+            # Checking if user has seleted a cat
             if chosen_cat.get() == "":
                  chosen_cat_error = "Must select a cat to adopt"
                  messagebox.showerror("Error", chosen_cat_error)
                  return
 
+
             # if all entries pass validation save to json
             data = {
-                "first_name": first_name,
-                "last_name": last_name,
+                "first_name": first_name.capitalize(),
+                "last_name": last_name.capitalize(),
                 "age": age,
                 "contact": contact_str,
-                "email": email_entry.get(),
+                "email": email_entered,
                 "cat": chosen_cat.get()
             }
 
             with open('user_info.json', 'a') as f:
+                if os.path.getsize('user_info.json') > 0:
+                    f.write(',\n')
                 json.dump(data, f, indent=4)
             
-            messagebox.showinfo("Save Successful!! Meow")
+            save_successful = "Meow!! :-3"
+            messagebox.showinfo("Save Successful", save_successful)
 
         # Button to save to json file
         save_button = Button(self, text="Save",
