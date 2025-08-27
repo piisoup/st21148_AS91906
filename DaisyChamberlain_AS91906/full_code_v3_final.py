@@ -11,7 +11,7 @@ from tkinter import *
 from tkinter import ttk
 from PIL import Image, ImageTk
 import os
-import json 
+import json
 from tkinter import messagebox
 import re
 
@@ -44,17 +44,15 @@ cat_names = [
     "Yoyo",
 ]
 
-# class holding all the main stuff
-class CatAdoption:
 
-    '''
+class CatAdoption:
+    """
     Main applications
-    '''
+    """
     def __init__(self):
         self.root = Tk()
         self.root.title("Adopt A Cat!! :-)")
         self.root.geometry("700x720")
-
         self.root.resizable(False, False)
 
         # Container for all frames
@@ -95,64 +93,75 @@ class MainFrame(Frame):
     # main menu with navigation
     def __init__(self, parent, controller):
         # Set the background color for the MainFrame
-        Frame.__init__(self, parent,
-                       bg="#D6CCC2")
+        Frame.__init__(
+            self,
+            parent,
+            bg="#D6CCC2")
 
         style = ttk.Style()
-        style.configure("My.TLabel",
-                        background="#D6CCC2",
-                        font=("PMingLiU", 16, "bold"))
+        style.configure(
+            "My.TLabel",
+            background="#D6CCC2",
+            font=("PMingLiU", 16, "bold"))
 
-        label = Label(self,
-                      text="Find your purrfect match! \n Adopt a cat today!",
-                      font=("PMingLiU", 16, "bold"),
-                      fg="#827268",
-                      background="#E3D5CA",
-                      width=30,
-                      height=5)
+        label = Label(
+            self,
+            text="Find your purrfect match! \n Adopt a cat today!",
+            font=("PMingLiU", 16, "bold"),
+            fg="#827268",
+            background="#E3D5CA",
+            width=30,
+            height=5)
         label.pack(pady=20, fill='x', padx=10)
 
         # Button to go to Adoption page
-        to_adopt_button = Button(self, text="Go", bg="#EDEDE9",
-                                font=("PMingLiU", 16, "bold"),
-                                fg="#827268",
-                                width=15,
-                                height=2,
-                                command=lambda: 
-                                controller.show_frame("AdoptionFrame"))
+        to_adopt_button = Button(
+            self,
+            text="Go",
+            bg="#EDEDE9",
+            font=("PMingLiU", 16, "bold"),
+            fg="#827268",
+            width=15,
+            height=2,
+            command=lambda: controller.show_frame("AdoptionFrame"))
         to_adopt_button.pack(pady=(85, 10), fill='x', padx=40)
 
         # moved quit button to MainFrame as it's part of the homepage layout
-        button_quit = Button(self, text="Exit",
-                                  font=("PMingLiU", 14, "bold"),
-                                  fg="#827268",
-                                  width=15,
-                                  height=1,
-                                  command=controller.quit_app)
+        button_quit = Button(
+            self,
+            text="Exit",
+            font=("PMingLiU", 14, "bold"),
+            fg="#827268",
+            width=15,
+            height=1,
+            command=controller.quit_app)
         button_quit.pack(padx=40, fill='x', pady=(0, 10))
 
-# Page which shows cats for adoption
-class AdoptionFrame(Frame):
-    def __init__(self, parent, controller):
-        Frame.__init__(self, parent, bg="#D6CCC2") 
 
-        self.grid_rowconfigure(0, weight=0) 
-        self.grid_rowconfigure(1, weight=1) 
-        self.grid_rowconfigure(2, weight=1) 
-        self.grid_rowconfigure(3, weight=0) 
-        self.grid_columnconfigure(0, weight=1) 
+class AdoptionFrame(Frame):
+    # Page which shows cats for adoption
+    def __init__(self, parent, controller):
+        Frame.__init__(self, parent, bg="#D6CCC2")
+
+        self.grid_rowconfigure(0, weight=0)
+        self.grid_rowconfigure(1, weight=1)
+        self.grid_rowconfigure(2, weight=1)
+        self.grid_rowconfigure(3, weight=0)
+        self.grid_columnconfigure(0, weight=1)
         self.grid_columnconfigure(1, weight=1)
         self.grid_columnconfigure(2, weight=1)
 
         self.photos = []
 
-        header_label = Label(self,
-                             text="Our Adoptable Cats",
-                             font=("PMingLiU", 16, "bold"),
-                             fg="#827268",
-                             background="#E3D5CA",
-                             height=2)
-        header_label.grid(row=0, column=0, columnspan=3, pady=20, padx=10, sticky="ew")
+        header_label = Label(
+            self,
+            text="Our Adoptable Cats",
+            font=("PMingLiU", 16, "bold"),
+            fg="#827268",
+            background="#E3D5CA",
+            height=2)
+        header_label.grid(row=0, column=0, columnspan=3, pady=20,
+                          padx=10, sticky="ew")
 
         # placing all the boxes manually !!
 
@@ -175,29 +184,36 @@ class AdoptionFrame(Frame):
         self.create_cat_box(row=2, col=2, index=5)
 
         # button to go back to main
-        back_button = Button(self, text="Menu",
-                             font=("PMingLiU", 14, "bold"),
-                             fg="#827268",
-                             bg="#EDEDE9",
-                             command=lambda: controller.show_frame("MainFrame"))
-        back_button.grid(row=3, column=0, columnspan=1, pady=10, padx=40, sticky="ew")
+        back_button = Button(
+            self,
+            text="Menu",
+            font=("PMingLiU", 14, "bold"),
+            fg="#827268",
+            bg="#EDEDE9",
+            command=lambda: controller.show_frame("MainFrame"))
+        back_button.grid(row=3, column=0, columnspan=1, pady=10,
+                         padx=40, sticky="ew")
 
-        # go to adoption form 
-        back_button = Button(self, text="Go to adopt!",
-                             font=("PMingLiU", 14, "bold"),
-                             fg="#827268",
-                             bg="#EDEDE9",
-                             command=lambda: controller.show_frame("FormFrame"))
-        back_button.grid(row=3, column=2, columnspan=1, pady=10, padx=40, sticky="ew")
+        # go to adoption form
+        back_button = Button(
+            self,
+            text="Go to adopt!",
+            font=("PMingLiU", 14, "bold"),
+            fg="#827268",
+            bg="#EDEDE9",
+            command=lambda: controller.show_frame("FormFrame"))
+        back_button.grid(row=3, column=2, columnspan=1, pady=10,
+                         padx=40, sticky="ew")
 
     # creating the boxes for the cats
     def create_cat_box(self, row, col, index):
         rough_box = Frame(self, bg="#E0E0E0", bd=1, relief="solid")
         rough_box.grid(row=row, column=col, padx=10, pady=7, sticky="nsew")
 
-        image_label = Label(rough_box,
-                            bg="#C0C0C0",
-                            relief="groove")
+        image_label = Label(
+            rough_box,
+            bg="#C0C0C0",
+            relief="groove")
         image_label.pack(pady=5, padx=5, fill="both", expand=True)
 
         # putting the dictionaries into a variable
@@ -213,36 +229,51 @@ class AdoptionFrame(Frame):
                 img_width, img_height = img.size
                 aspect_ratio = img_width / img_height
 
-                # checks if the target box is wider then the originals image aspect ratio
+                # checks if the target box is wider than the originals image
+                # aspect ratio
                 if target_width / target_height > aspect_ratio:
                     new_height = target_height
                     new_width = int(new_height * aspect_ratio)
-
                 # if false then box is taller! and changes
                 else:
                     new_width = target_width
                     new_height = int(new_width / aspect_ratio)
 
-                # use lanczos as it is a better way to downscale images - keeps quality
+                # use lanczos as it is a better way to downscale images - keeps
+                # quality
                 img = img.resize((new_width, new_height), Image.LANCZOS)
                 photo = ImageTk.PhotoImage(img)
                 image_label.config(image=photo)
                 self.photos.append(photo)
             except Exception as e:
                 # if image is not loading will show LOADING error
-                image_label.config(text=f"loading image error {os.path.basename(image_path)}: {e}", bg="red", fg="white", font=("PMingLiU", 8), wraplength=100)
+                image_label.config(
+                    text=f"loading image error {os.path.basename(image_path)}: {e}",
+                    bg="red",
+                    fg="white",
+                    font=("PMingLiU", 8),
+                    wraplength=100)
         else:
-            # if image file cannot be found, will show orange box and let users know
-            image_label.config(text=f"Image cannot be found: {os.path.basename(image_path)}", bg="orange", fg="white", font=("PMingLiU", 8), wraplength=100)
+            # if image file cannot be found, will show orange box
+            # and let users know
+            image_label.config(
+                text=f"Image cannot be found: {os.path.basename(image_path)}",
+                bg="orange",
+                fg="white",
+                font=("PMingLiU", 8),
+                wraplength=100)
 
-        cat_info_label = Label(rough_box, text=current_cat_info,
-                               bg="#EDEDE9",
-                               font=("PMingLiU", 10, "bold"),
-                               fg="#827268")
+        cat_info_label = Label(
+            rough_box,
+            text=current_cat_info,
+            bg="#EDEDE9",
+            font=("PMingLiU", 10, "bold"),
+            fg="#827268")
         cat_info_label.pack(expand=True, fill="both", pady=(0, 5))
 
-# frame to adopt cats
+
 class FormFrame(Frame):
+    # frame to adopt cats
     def __init__(self, parent, controller):
         Frame.__init__(self, parent, bg="#D6CCC2")
 
@@ -251,111 +282,151 @@ class FormFrame(Frame):
         self.grid_columnconfigure(1, weight=1)
         self.grid_columnconfigure(2, weight=1)
 
-
         # header and text
-        FormHeader_label = Label(self,
-                                 text="Adoption Form!",
-                                 font=("PMingLiU", 20, "bold"),
-                                 fg="#827268",
-                                 background="#E3D5CA",
-                                 width=30,
-                                 height=2)
-        FormHeader_label.grid(row=0, column=0, columnspan=3, pady=(20, 0), padx=10, sticky='nsew')
+        FormHeader_label = Label(
+            self,
+            text="Adoption Form!",
+            font=("PMingLiU", 20, "bold"),
+            fg="#827268",
+            background="#E3D5CA",
+            width=30,
+            height=2)
+        FormHeader_label.grid(row=0, column=0, columnspan=3, pady=(20, 0),
+                              padx=10, sticky='nsew')
 
-        FormSubHeader_label = Label(self,
-                                         text="All Information Kept Private.",
-                                         font=("PMingLiU", 8, "bold"),
-                                         fg="#827268",
-                                         background="#E3D5CA",
-                                         width=30,
-                                         height=1)
-        FormSubHeader_label.grid(row=1, column=0, columnspan=3, pady=0, padx=10, sticky='nsew')
+        FormSubHeader_label = Label(
+            self,
+            text="All Information Kept Private.",
+            font=("PMingLiU", 8, "bold"),
+            fg="#827268",
+            background="#E3D5CA",
+            width=30,
+            height=1)
+        FormSubHeader_label.grid(row=1, column=0, columnspan=3, pady=0,
+                                 padx=10, sticky='nsew')
 
         # starting from row 2
         row_offset = 2
 
         # Labels ! more centered now
-        first_name_label = Label(self,
-                                 text="First Name",
-                                 font=("PMingLiU", 14, "bold"),
-                                 fg="#827268",
-                                 background="#E3D5CA",
-                                 width=30,
-                                 height=1)
-        first_name_label.grid(row=0+row_offset, column=0, padx=5, pady=5, sticky='e')
+        first_name_label = Label(
+            self,
+            text="First Name",
+            font=("PMingLiU", 14, "bold"),
+            fg="#827268",
+            background="#E3D5CA",
+            width=30,
+            height=1)
+        first_name_label.grid(row=0 + row_offset, column=0, padx=5,
+                              pady=5, sticky='e')
 
-        last_name_label = Label(self,
-                                 text="Last Name",
-                                 font=("PMingLiU", 14, "bold"),
-                                 fg="#827268",
-                                 background="#E3D5CA",
-                                 width=30,
-                                 height=1)
-        last_name_label.grid(row=1+row_offset, column=0, padx=5, pady=5, sticky='e')
+        last_name_label = Label(
+            self,
+            text="Last Name",
+            font=("PMingLiU", 14, "bold"),
+            fg="#827268",
+            background="#E3D5CA",
+            width=30,
+            height=1)
+        last_name_label.grid(row=1 + row_offset, column=0, padx=5,
+                             pady=5, sticky='e')
 
-        age_label = Label(self,
-                          text="Age (must be over 18)",
-                          font=("PMingLiU", 14, "bold"),
-                          fg="#827268",
-                          background="#E3D5CA",
-                          width=30,
-                          height=1)
-        age_label.grid(row=2+row_offset, column=0, padx=5, pady=5, sticky='e')
+        age_label = Label(
+            self,
+            text="Age (must be over 18)",
+            font=("PMingLiU", 14, "bold"),
+            fg="#827268",
+            background="#E3D5CA",
+            width=30,
+            height=1)
+        age_label.grid(row=2 + row_offset, column=0, padx=5,
+                       pady=5, sticky='e')
 
-        contact_label = Label(self,
-                              text="Contact number",
-                              font=("PMingLiU", 14, "bold"),
-                              fg="#827268",
-                              background="#E3D5CA",
-                              width=30,
-                              height=1)
-        contact_label.grid(row=3+row_offset, column=0, padx=5, pady=5, sticky='e')
+        contact_label = Label(
+            self,
+            text="Contact number",
+            font=("PMingLiU", 14, "bold"),
+            fg="#827268",
+            background="#E3D5CA",
+            width=30,
+            height=1)
+        contact_label.grid(row=3 + row_offset, column=0, padx=5,
+                           pady=5, sticky='e')
 
-        email_label = Label(self,
-                            text="Email address",
-                            font=("PMingLiU", 14, "bold"),
-                            fg="#827268",
-                            background="#E3D5CA",
-                            width=30,
-                            height=1)
-        email_label.grid(row=4+row_offset, column=0, padx=5, pady=5, sticky='e')
+        email_label = Label(
+            self,
+            text="Email address",
+            font=("PMingLiU", 14, "bold"),
+            fg="#827268",
+            background="#E3D5CA",
+            width=30,
+            height=1)
+        email_label.grid(row=4 + row_offset, column=0, padx=5,
+                         pady=5, sticky='e')
 
-        name_of_cat_label = Label(self,
-                                  text="Name of cat looking to adopt",
-                                  font=("PMingLiU", 14, "bold"),
-                                  fg="#827268",
-                                  background="#E3D5CA",
-                                  width=30,
-                                  height=1)
-        name_of_cat_label.grid(row=5+row_offset, column=0, padx=5, pady=5, sticky='e')
+        name_of_cat_label = Label(
+            self,
+            text="Name of cat looking to adopt",
+            font=("PMingLiU", 14, "bold"),
+            fg="#827268",
+            background="#E3D5CA",
+            width=30,
+            height=1)
+        name_of_cat_label.grid(row=5 + row_offset, column=0, padx=5,
+                               pady=5, sticky='e')
 
         # Entry boxes
         user_first_name = StringVar()
-        first_name_entry = ttk.Entry(self, textvariable=user_first_name, font=('PMingLiU', 14, 'normal'))
-        first_name_entry.grid(row=0+row_offset, column=1, padx=5, pady=5, sticky='w')
+        first_name_entry = ttk.Entry(
+            self,
+            textvariable=user_first_name,
+            font=('PMingLiU', 14, 'normal'))
+        first_name_entry.grid(row=0 + row_offset, column=1, padx=5,
+                              pady=5, sticky='w')
 
         user_last_name = StringVar()
-        last_name_entry = ttk.Entry(self, textvariable=user_last_name, font=('PMingLiU', 14, 'normal'))
-        last_name_entry.grid(row=1+row_offset, column=1, padx=5, pady=5, sticky='w')
+        last_name_entry = ttk.Entry(
+            self,
+            textvariable=user_last_name,
+            font=('PMingLiU', 14, 'normal'))
+        last_name_entry.grid(row=1 + row_offset, column=1, padx=5,
+                             pady=5, sticky='w')
 
         user_age = StringVar()
-        age_entry = ttk.Entry(self, textvariable=user_age, font=('PMingLiU', 14, 'normal'))
-        age_entry.grid(row=2+row_offset, column=1, padx=5, pady=5, sticky='w')
+        age_entry = ttk.Entry(
+            self,
+            textvariable=user_age,
+            font=('PMingLiU', 14, 'normal'))
+        age_entry.grid(row=2 + row_offset, column=1, padx=5,
+                       pady=5, sticky='w')
 
         user_contact = StringVar()
-        contact_entry = ttk.Entry(self, textvariable=user_contact, font=('PMingLiU', 14, 'normal'))
-        contact_entry.grid(row=3+row_offset, column=1, padx=5, pady=5, sticky='w')
+        contact_entry = ttk.Entry(
+            self,
+            textvariable=user_contact,
+            font=('PMingLiU', 14, 'normal'))
+        contact_entry.grid(row=3 + row_offset, column=1, padx=5,
+                           pady=5, sticky='w')
 
         user_email = StringVar()
-        email_entry = ttk.Entry(self, textvariable=user_email, font=('PMingLiU', 14, 'normal'))
-        email_entry.grid(row=4+row_offset, column=1, padx=5, pady=5, sticky='w')
+        email_entry = ttk.Entry(
+            self,
+            textvariable=user_email,
+            font=('PMingLiU', 14, 'normal'))
+        email_entry.grid(row=4 + row_offset, column=1, padx=5,
+                         pady=5, sticky='w')
 
         # Combo box
         chosen_cat = StringVar()
         chosen_cat.set("")
-        cat_combobox = ttk.Combobox(self, textvariable=chosen_cat, state="readonly", font=('PMingLiU', 14, 'normal'))
+        cat_combobox = ttk.Combobox(
+            self,
+            textvariable=chosen_cat,
+            state="readonly",
+            font=('PMingLiU', 14, 'normal'))
         cat_combobox['values'] = cat_names
-        cat_combobox.grid(row=5+row_offset, column=1, padx=5, pady=5, sticky='w')
+        cat_combobox.grid(row=5 + row_offset, column=1, padx=5,
+                          pady=5, sticky='w')
 
         def save_to_file():
             first_name = first_name_entry.get()
@@ -365,27 +436,27 @@ class FormFrame(Frame):
             email_entered = email_entry.get()
 
             # Validation checks
-            # checking if first and last name is all letters and less then 20 chars
-            if not re.fullmatch(r'[a-zA-Z]+', first_name):
-                name_error = "First and last name must only contain letters."
+            # checking if first and last name is all letters and less than
+            # 20 chars
+            if not re.fullmatch(r'[a-zA-Z-]+', first_name):
+                name_error = "First name must only contain letters."
                 messagebox.showerror("Error", name_error)
                 return
 
             if not len(first_name) < 20:
-                name_length_error = "First and last name must be less then 20 characters"
+                name_length_error = "First name must be less than 20 characters"
                 messagebox.showerror("Error", name_length_error)
-                return 
+                return
 
-            if not re.fullmatch(r'[a-zA-Z]+', last_name):
-                name_error = "First and last name must only contain letters."
+            if not re.fullmatch(r'[a-zA-Z-]+', last_name):
+                name_error = " ."
                 messagebox.showerror("Error", name_error)
                 return
-            
-            if not len(last_name) < 20:
-                name_length_error = "First and last name must be less then 20 characters"
-                messagebox.showerror("Error", name_length_error)
-                return 
 
+            if not len(last_name) < 20:
+                name_length_error = "Last name must be less than 20 characters"
+                messagebox.showerror("Error", name_length_error)
+                return
 
             # checking if age entry is all numbers, and 18 <= age < 150
             if not age_str.isdigit():
@@ -394,45 +465,46 @@ class FormFrame(Frame):
                 return
 
             if not int(age_str) < 150:
-                age_error = "Age must be less then 150"
+                age_error = "Age must be less than 150"
                 messagebox.showerror("error", age_error)
                 return
 
             age = int(age_str)
-            if age <= 18:
+            if age < 18:
                 age_error = "Legally, you must be 18 or over to adopt an animal."
-                messagebox.showerror("Age error")
+                messagebox.showerror("Age error", age_error)
                 return
 
-            # checking if contact entry is all numbers and less then 15 digits
+            # checking if contact entry is all numbers and less than 15 digits
             if not contact_str.isdigit():
                 number_error = "Age and contact must only contain numbers"
                 messagebox.showerror("error", number_error)
                 return
-            
+
             if not len(contact_str) < 15:
-                contact_error = "Conact number must be less then 15 digits"
+                contact_error = "Contact number must be less than 15 digits"
                 messagebox.showerror("error", contact_error)
                 return
-            
-            # checking email is less then 40 chars and is in proper format
+
+            # checking email is less than 40 chars and is in proper format
             if not len(email_entered) < 40:
-                email_error = "Email entered must be less then 40 characters"
+                email_error = "Email entered must be less than 40 characters"
                 messagebox.showerror("error", email_error)
                 return
-            
-            if not re.fullmatch(r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$', email_entered):
-                email_input_error = "Not valid email address"
+
+            if not re.fullmatch(
+                    r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$',
+                    email_entered):
+                email_input_error = "Not a valid email address"
                 messagebox.showerror("error", email_input_error)
                 return
 
-            # Checking if user has seleted a cat
+            # Checking if user has selected a cat
             if chosen_cat.get() == "":
-                 chosen_cat_error = "Must select a cat to adopt"
-                 messagebox.showerror("Error", chosen_cat_error)
-                 return
-
-
+                chosen_cat_error = "Must select a cat to adopt"
+                messagebox.showerror("Error", chosen_cat_error)
+                return
+            
             # if all entries pass validation save to json
             data = {
                 "first_name": first_name.capitalize(),
@@ -447,33 +519,43 @@ class FormFrame(Frame):
                 if os.path.getsize('user_info.json') > 0:
                     f.write(',\n')
                 json.dump(data, f, indent=4)
-            
+
             save_successful = "Meow!! :-3"
             messagebox.showinfo("Save Successful", save_successful)
 
         # Button to save to json file
-        save_button = Button(self, text="Save",
-                              font=("PMingLiU", 14, "bold"),
-                              fg="#827268",
-                              bg="#EDEDE9",
-                              command=save_to_file)
-        save_button.grid(row=8, column=0, columnspan=3, pady=(20, 0), padx=50, sticky='nsew')
+        save_button = Button(
+            self,
+            text="Save",
+            font=("PMingLiU", 14, "bold"),
+            fg="#827268",
+            bg="#EDEDE9",
+            command=save_to_file)
+        save_button.grid(row=8, column=0, columnspan=3, pady=(20, 0),
+                         padx=50, sticky='nsew')
 
-        # Button to go back to the Main page 
-        back_button = Button(self, text="Menu",
-                              font=("PMingLiU", 14, "bold"),
-                              fg="#827268",
-                              bg="#EDEDE9",
-                              command=lambda: controller.show_frame("MainFrame"))
-        back_button.grid(row=9, column=0, columnspan=1, pady=100, padx=40, sticky="ew")
-        
+        # Button to go back to the Main page
+        back_button = Button(
+            self,
+            text="Menu",
+            font=("PMingLiU", 14, "bold"),
+            fg="#827268",
+            bg="#EDEDE9",
+            command=lambda: controller.show_frame("MainFrame"))
+        back_button.grid(row=9, column=0, columnspan=1, pady=100,
+                         padx=40, sticky="ew")
+
         # button to go back to adoption page
-        back_button = Button(self, text="Go back to cats!",
-                              font=("PMingLiU", 14, "bold"),
-                              fg="#827268",
-                              bg="#EDEDE9",
-                              command=lambda: controller.show_frame("AdoptionFrame"))
-        back_button.grid(row=9, column=1, columnspan=4, pady=100, padx=(0, 40), sticky="ew")
+        back_button = Button(
+            self,
+            text="Go back to cats!",
+            font=("PMingLiU", 14, "bold"),
+            fg="#827268",
+            bg="#EDEDE9",
+            command=lambda: controller.show_frame("AdoptionFrame"))
+        back_button.grid(row=9, column=1, columnspan=4, pady=100,
+                         padx=(0, 40), sticky="ew")
+
 
 # run the application
 if __name__ == "__main__":
