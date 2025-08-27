@@ -16,7 +16,7 @@
 To run my code easily, it's best to download the foder <b>'DaisyChamberlain_AS91906'</b> and to do this you:
 <ol>
   <li>Click on the folder</li>
-  <li>copy and paste the url</li>
+  <li>copy the url</li>
   <li>go to <a href="https://download-directory.github.io/">Download GitHub directory</a></li>
   <li>paste the url, then it will zip the folder and save to your downloads folder!</li>
 </ol>
